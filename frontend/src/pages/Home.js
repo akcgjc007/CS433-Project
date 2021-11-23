@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { Card, Button, Row } from "react-bootstrap";
+import history from "./../history";
 
 const url = "http://localhost:5000/";
 
 function Home() {
   const [getMessage, setGetMessage] = useState({});
+  const [postData, setPostData] = useState([]);
 
   useEffect(() => {
     // axios
@@ -28,9 +31,10 @@ function Home() {
       });
 
     axios
-      .get(url + "flask/top_questions")
+      .get(url + "flask/all")
       .then((response) => {
-        console.log("SUCCESS", response);
+        console.log(response);
+        setPostData(response.data.data);
       })
       .catch((error) => {
         console.log(error);
@@ -38,17 +42,21 @@ function Home() {
   }, []);
   return (
     <div className="App">
-      <header className="App-header">
-        <img className="App-logo" alt="logo" />
-        <p>React + Flask Tutorial</p>
-        <div>
-          {getMessage.status === 200 ? (
-            <h3>{getMessage.data.message}</h3>
-          ) : (
-            <h3>LOADING</h3>
-          )}
-        </div>
-      </header>
+      {postData.map((value, index) => {
+        console.log(value);
+        return (
+          <a href={"/question/" + value[0]}>
+            <Card key={index} className="m-2">
+              <Card.Body>
+                <Row>
+                  <Card.Title className="col-11">{value[1]}</Card.Title>
+                  <div className="col-1">{value[4]}</div>
+                </Row>
+              </Card.Body>
+            </Card>
+          </a>
+        );
+      })}
     </div>
   );
 }
