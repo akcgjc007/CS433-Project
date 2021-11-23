@@ -78,6 +78,38 @@ function Question(props) {
       });
   };
 
+  const upvoteQuestionHandler = async (e) => {
+    e.preventDefault();
+
+    await axios
+      .post(url + "flask/upvote_question", {
+        token,
+        qid: props.match.params.id,
+      })
+      .then(async (response) => {
+        console.log(response);
+        history.go(0);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const upvoteAnswerHandler = async (aid) => {
+    await axios
+      .post(url + "flask/upvote_answer", {
+        token,
+        aid,
+      })
+      .then(async (response) => {
+        console.log(response);
+        // history.go(0);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   return (
     <div className="App">
       <Card className="m-2">
@@ -89,7 +121,9 @@ function Question(props) {
             <Card.Text>{qData[2]}</Card.Text>
             <Card.Text>Author: {qData[3]}</Card.Text>
             <Row className="justify-content-center">
-              <Button className="mx-2">Upvote</Button>
+              <Button className="mx-2" onClick={upvoteQuestionHandler}>
+                Upvote
+              </Button>
               <Button className="mx-2">Edit</Button>
               <Button className="mx-2" onClick={deleteQuestionHandler}>
                 Delete
@@ -114,7 +148,14 @@ function Question(props) {
                   <Card.Text>{value[1]}</Card.Text>
                   <Card.Text>Author: {value[3]}</Card.Text>
                   <Row className="justify-content-center">
-                    <Button className="mx-2">Upvote</Button>
+                    <Button
+                      className="mx-2"
+                      onClick={() => {
+                        upvoteAnswerHandler(value[0]);
+                      }}
+                    >
+                      Upvote
+                    </Button>
                     <Button className="mx-2">Edit</Button>
                     <Button
                       className="mx-2"
