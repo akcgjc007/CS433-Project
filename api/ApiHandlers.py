@@ -83,8 +83,6 @@ class AddQuestion(Resource, DBAccess):
         token = data.get('token', '')
         title = data.get('title', '')
         desc = data.get('desc', '')
-
-        print(token, title, desc)
         query_res = self.obj.check_token(token)
 
         if len(query_res) == 0:
@@ -97,7 +95,30 @@ class AddQuestion(Resource, DBAccess):
             r = self.obj.find_qid(title)
 
             res = {"status": "Success",
-                   "message": "Login successfully.",
+                   "message": "Question added successfully.",
                    "qid": r[0][0]
+                   }
+            return res
+
+
+class AddAnswer(Resource, DBAccess):
+    def post(self):
+        data = request.get_json()
+        token = data.get('token', '')
+        desc = data.get('desc', '')
+        qid = data.get('qid', '')
+        print(token, desc, qid)
+        query_res = self.obj.check_token(token)
+
+        if len(query_res) == 0:
+            res = {"status": "Fail",
+                   "message": "Adding Question unsuccessful."}
+
+            return res
+        else:
+            self.obj.insert_into_answers(desc, qid, query_res[0][0])
+
+            res = {"status": "Success",
+                   "message": "Answer added successfully."
                    }
             return res
