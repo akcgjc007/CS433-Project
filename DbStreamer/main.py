@@ -201,6 +201,14 @@ class DbStreamer:
         results = _cursor.fetchall()
         return results
 
+    def search_answer_by_id(self, id):
+        sql = "select * from Answers where id = %s;"
+        val = (id)
+        _cursor = self.conn.cursor()
+        _cursor.execute(sql, (val, ))
+        results = _cursor.fetchall()
+        return results
+
     def get_tables(self):
         sql = "SHOW TABLES;"
         _cursor = self.conn.cursor()

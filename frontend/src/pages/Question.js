@@ -45,16 +45,63 @@ function Question(props) {
       });
   };
 
+  const deleteQuestionHandler = async (e) => {
+    e.preventDefault();
+
+    await axios
+      .post(url + "flask/delete_question", {
+        token,
+        qid: props.match.params.id,
+      })
+      .then(async (response) => {
+        console.log(response);
+        history.push("/home");
+        history.go(0);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const deleteAnswerHandler = async (aid) => {
+    await axios
+      .post(url + "flask/delete_answer", {
+        token,
+        aid,
+      })
+      .then(async (response) => {
+        console.log(response);
+        history.go(0);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   return (
     <div className="App">
       <Card className="m-2">
         <Row>
           <Card.Body className="col-11">
-            <Card.Title>{qData[1]}</Card.Title>
+            <Card.Title>
+              <h2>{qData[1]}</h2>
+            </Card.Title>
             <Card.Text>{qData[2]}</Card.Text>
             <Card.Text>Author: {qData[3]}</Card.Text>
+            <Row className="justify-content-center">
+              <Button className="mx-2">Upvote</Button>
+              <Button className="mx-2">Edit</Button>
+              <Button className="mx-2" onClick={deleteQuestionHandler}>
+                Delete
+              </Button>
+            </Row>
           </Card.Body>
-          <div className="col-1">{qData[4]}</div>
+
+          <div className="col-1 border d-flex align-items-center justify-content-center">
+            <h3>
+              <b>{qData[4]}</b>
+            </h3>
+          </div>
         </Row>
       </Card>
 
@@ -66,6 +113,18 @@ function Question(props) {
                 <Card.Body className="col-11">
                   <Card.Text>{value[1]}</Card.Text>
                   <Card.Text>Author: {value[3]}</Card.Text>
+                  <Row className="justify-content-center">
+                    <Button className="mx-2">Upvote</Button>
+                    <Button className="mx-2">Edit</Button>
+                    <Button
+                      className="mx-2"
+                      onClick={() => {
+                        deleteAnswerHandler(value[0]);
+                      }}
+                    >
+                      Delete
+                    </Button>
+                  </Row>
                 </Card.Body>
                 <div className="col-1">{value[4]}</div>
               </Row>

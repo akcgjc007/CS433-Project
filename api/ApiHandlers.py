@@ -122,3 +122,52 @@ class AddAnswer(Resource, DBAccess):
                    "message": "Answer added successfully."
                    }
             return res
+
+
+class DeleteQuestion(Resource, DBAccess):
+    def post(self):
+        data = request.get_json()
+        token = data.get('token', '')
+        qid = data.get('qid', '')
+        print(token, qid)
+        query_res = self.obj.check_token(token)
+
+        if len(query_res) == 0:
+            res = {"status": "Fail",
+                   "message": "Adding Question unsuccessful."}
+
+            return res
+        else:
+            qInfo = self.obj.search_question_by_id(qid)
+            assert(qInfo[0][1] == query_res[0][0])
+
+            self.obj.delete_question(qid)
+            res = {"status": "Success",
+                   "message": "Question delted added successfully."
+                   }
+            return res
+
+
+class DeleteAnswer(Resource, DBAccess):
+    def post(self):
+        print("Coming here.")
+        data = request.get_json()
+        token = data.get('token', '')
+        aid = data.get('aid', '')
+        print(token, aid)
+        query_res = self.obj.check_token(token)
+
+        if len(query_res) == 0:
+            res = {"status": "Fail",
+                   "message": "Deleting answer unsuccessful."}
+
+            return res
+        else:
+            aInfo = self.obj.search_answer_by_id(aid)
+            assert(aInfo[0][3] == query_res[0][0])
+
+            self.obj.delete_answer(aid)
+            res = {"status": "Success",
+                   "message": "Answer deleted successfully."
+                   }
+            return res
