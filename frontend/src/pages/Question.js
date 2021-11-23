@@ -36,12 +36,7 @@ function Question(props) {
 
       {aData.map((value, index) => {
         return (
-          <Card
-            style={{ curson: "pointer" }}
-            onClick={() => {}}
-            key={index}
-            className="m-2"
-          >
+          <Card key={index} className="m-2">
             <Card.Body>
               <Row>
                 <Card.Body className="col-11">

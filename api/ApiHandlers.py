@@ -1,48 +1,19 @@
 from flask_restful import Api, Resource, reqparse
+from flask import request
 from DbStreamer.main import DbStreamer
+from uuid import uuid4
 
 
-class HelloApiHandler(Resource):
-    def get(self):
-
-        return {
-            'resultStatus': 'SUCCESS',
-            'message': "Hello Api Handler"
-        }
-
-    def post(self):
-        print(self)
-        parser = reqparse.RequestParser()
-        parser.add_argument('type', type=str)
-        parser.add_argument('message', type=str)
-
-        args = parser.parse_args()
-
-        print(args)
-        # note, the post req from frontend needs to match the strings here (e.g. 'type and 'message')
-
-        request_type = args['type']
-        request_json = args['message']
-        # ret_status, ret_msg = ReturnData(request_type, request_json)
-        # currently just returning the req straight
-        ret_status = request_type
-        ret_msg = request_json
-
-        if ret_msg:
-            message = "Your Message Requested: {}".format(ret_msg)
-        else:
-            message = "No Msg"
-
-        final_ret = {"status": "Success", "message": message}
-
-        return final_ret
-
-
-class AllQuestionsHandler(Resource):
+class DBAccess():
     def __init__(self):
         self.obj = DbStreamer("localhost", "root", "0000", "mydb")
         self.obj.connect_database()
 
+    def __del__(self):
+        self.obj.close_connection()
+
+
+class AllQuestionsHandler(Resource, DBAccess):
     def get(self):
         data = self.obj.get_top_questions()
         return {
@@ -51,39 +22,8 @@ class AllQuestionsHandler(Resource):
             'data': data
         }
 
-    def post(self):
-        print(self)
-        parser = reqparse.RequestParser()
-        parser.add_argument('type', type=str)
-        parser.add_argument('message', type=str)
 
-        args = parser.parse_args()
-
-        print(args)
-        # note, the post req from frontend needs to match the strings here (e.g. 'type and 'message')
-
-        request_type = args['type']
-        request_json = args['message']
-        # ret_status, ret_msg = ReturnData(request_type, request_json)
-        # currently just returning the req straight
-        ret_status = request_type
-        ret_msg = request_json
-
-        if ret_msg:
-            message = "Your Message Requested: {}".format(ret_msg)
-        else:
-            message = "No Msg"
-
-        final_ret = {"status": "Success", "message": message}
-
-        return final_ret
-
-
-class QuestionHandler(Resource):
-    def __init__(self, ):
-        self.obj = DbStreamer("localhost", "root", "0000", "mydb")
-        self.obj.connect_database()
-
+class QuestionHandler(Resource, DBAccess):
     def get(self, id):
         question_data = self.obj.search_question_by_id(id)
         answers_data = self.obj.search_answers(id)
@@ -94,29 +34,70 @@ class QuestionHandler(Resource):
             'answer_data': answers_data
         }
 
+
+class Signup(Resource, DBAccess):
     def post(self):
-        print(self)
-        parser = reqparse.RequestParser()
-        parser.add_argument('type', type=str)
-        parser.add_argument('message', type=str)
+        data = request.get_json()
+        userid = data.get('userid', '')
+        name = data.get('name', '')
+        email = data.get('email', '')
+        password = data.get('password', '')
 
-        args = parser.parse_args()
+        self.obj.insert_into_users(userid, name, email, password)
 
-        print(args)
-        # note, the post req from frontend needs to match the strings here (e.g. 'type and 'message')
+        res = {"status": "Success",
+               "message": "Account created successfully."}
 
-        request_type = args['type']
-        request_json = args['message']
-        # ret_status, ret_msg = ReturnData(request_type, request_json)
-        # currently just returning the req straight
-        ret_status = request_type
-        ret_msg = request_json
+        return res
 
-        if ret_msg:
-            message = "Your Message Requested: {}".format(ret_msg)
+
+class Login(Resource, DBAccess):
+    def post(self):
+        data = request.get_json()
+        email = data.get('email', '')
+        password = data.get('password', '')
+
+        # check if this username and password are good or not
+        query_res = self.obj.check_user(email, password)
+
+        if len(query_res) == 0:
+            res = {"status": "Fail",
+                   "message": "Login unsuccessful."}
+
+            return res
         else:
-            message = "No Msg"
+            rand_token = uuid4()
+            self.obj.insert_into_tokens(query_res[0][0], str(rand_token))
 
-        final_ret = {"status": "Success", "message": message}
+            res = {"status": "Success",
+                   "message": "Login successfully.",
+                   "userid": query_res[0][0],
+                   "name": query_res[0][1],
+                   "token": str(rand_token)}
+            return res
 
-        return final_ret
+
+class AddQuestion(Resource, DBAccess):
+    def post(self):
+        data = request.get_json()
+        token = data.get('token', '')
+        title = data.get('title', '')
+        desc = data.get('desc', '')
+
+        print(token, title, desc)
+        query_res = self.obj.check_token(token)
+
+        if len(query_res) == 0:
+            res = {"status": "Fail",
+                   "message": "Adding Question unsuccessful."}
+
+            return res
+        else:
+            self.obj.insert_into_questions(title, desc, query_res[0][0])
+            r = self.obj.find_qid(title)
+
+            res = {"status": "Success",
+                   "message": "Login successfully.",
+                   "qid": r[0][0]
+                   }
+            return res

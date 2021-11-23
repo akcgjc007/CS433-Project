@@ -3,7 +3,6 @@ import mysql.connector as mysql
 
 class DbStreamer:
     def __init__(self, host, user, password, database):
-        mysql.connect(host='localhost', user='root', password='0000')
         self.conn = mysql.connect(
             host=host, user=user, passwd=password, db=database)
         return
@@ -43,6 +42,14 @@ class DbStreamer:
         val = (title, description, user_id)
         _cursor = self.conn.cursor()
         _cursor.execute(sql, (val))
+        results = _cursor.fetchall()
+        return results
+
+    def find_qid(self, title):
+        sql = "select id from Questions where title = %s;"
+        val = (title)
+        _cursor = self.conn.cursor()
+        _cursor.execute(sql, (val,))
         results = _cursor.fetchall()
         return results
 
@@ -167,6 +174,30 @@ class DbStreamer:
         val = ()
         _cursor = self.conn.cursor()
         _cursor.execute(sql)
+        results = _cursor.fetchall()
+        return results
+
+    def check_user(self, email, password):
+        sql = "select * from Users where email = %s and password = %s;"
+        val = (email, password)
+        _cursor = self.conn.cursor()
+        _cursor.execute(sql, (val))
+        results = _cursor.fetchall()
+        return results
+
+    def insert_into_tokens(self, user_id, token):
+        sql = "insert into Tokens (user_id, token) values (%s, %s);"
+        val = (user_id, token)
+        _cursor = self.conn.cursor()
+        _cursor.execute(sql, (val))
+        results = _cursor.fetchall()
+        return results
+
+    def check_token(self, token):
+        sql = "select user_id from Tokens where token = %s;"
+        val = (token)
+        _cursor = self.conn.cursor()
+        _cursor.execute(sql, (val,))
         results = _cursor.fetchall()
         return results
 
