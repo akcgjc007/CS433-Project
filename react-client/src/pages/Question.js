@@ -103,7 +103,7 @@ function Question(props) {
       })
       .then(async (response) => {
         console.log(response);
-        // history.go(0);
+        history.go(0);
       })
       .catch((error) => {
         console.log(error);

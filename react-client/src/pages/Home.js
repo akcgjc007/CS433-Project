@@ -6,20 +6,9 @@ import axios from "axios";
 const url = "http://localhost:5000/";
 
 function Home() {
-  const [getMessage, setGetMessage] = useState({});
   const [postData, setPostData] = useState([]);
 
   useEffect(() => {
-    axios
-      .get(url + "flask/hello")
-      .then((response) => {
-        console.log("SUCCESS", response);
-        setGetMessage(response);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-
     axios
       .get(url + "flask/all")
       .then((response) => {
