@@ -1,6 +1,6 @@
 from DbStreamer.main import DbStreamer
 
-obj = DbStreamer("localhost", "root", "0000", "mydb")
+obj = DbStreamer()
 obj.initialize_database()
 
 obj.run_my_query("""
@@ -18,8 +18,8 @@ obj.run_my_query("""
 -- Questions
 create table Questions(
     id int(10) unsigned auto_increment primary key,
-    title varchar(200) unique not null,
-    description varchar(2000) not null,
+    title varchar(500) unique not null,
+    description varchar(15000) not null,
     user_id varchar(50),
     upvotes int(10) unsigned default 0,
 
@@ -86,5 +86,3 @@ create table Tokens (
     foreign key (user_id) references Users(id)
 );
 """)
-
-obj.close_connection()

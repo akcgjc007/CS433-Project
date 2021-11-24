@@ -17,3 +17,7 @@
 2. Run `cd python-client` to enter the client directory.
 3. `yarn`/`npm i`
 4. `yarn start`/`npm run start`
+
+## Testing with `test-client` in `mininet`
+
+- xterm -fa 'Monospace' -fs 14
