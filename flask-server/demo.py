@@ -1,79 +1,47 @@
-from DbStreamer.main import DbStreamer
+from DbStreamer.main import *
+from data import *
 
 obj = DbStreamer()
 
-# dummpy_title = """How can I upgrade the RAM of a Dell XPS 15 without opening ?"""
-# dummy_description = """Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."""
+n = 5
+users = [
+    ["james554", "James", "james@gmail.com", "0000"],
+    ["thomas999", "Thomas", "thomas@gmail.com", "0000"],
+    ["harry555", "Harry", "harry@gmail.com", "0000"],
+    ["vivek999", "Vivek", "vivek@gmail.com", "0000"],
+    ["anupam110", "Anupam", "anupam@gmail.com", "0000"],
+]
 
-# obj.insert_into_users("a", "A", "a@iitgn.ac.in", "abcd")
-# obj.insert_into_users("b", "B", "b@iitgn.ac.in", "abcd")
-# obj.insert_into_users("c", "C", "c@iitgn.ac.in", "abcd")
-# obj.insert_into_users("d", "D", "d@iitgn.ac.in", "abcd")
-# obj.insert_into_users("e", "D", "e@iitgn.ac.in", "abcd")
-# obj.insert_into_users("f", "D", "f@iitgn.ac.in", "abcd")
-# obj.insert_into_users("g", "D", "g@iitgn.ac.in", "abcd")
-# obj.insert_into_users("h", "D", "h@iitgn.ac.in", "abcd")
+for user in users:
+    obj.insert_into_users(user[0], user[1], user[2], user[3])
 
-# obj.insert_into_questions('dummy title', 'dummy description', "a",)
-# obj.insert_into_questions(dummpy_title, dummy_description, "b",)
-# obj.insert_into_questions('dummy title2', 'dummy description', "c",)
-# obj.insert_into_questions('dummy title3', 'dummy description', "e",)
-# obj.insert_into_questions('dummy 889', 'dummy description blah blah', "f",)
+total_answers = 0
+for i in range(n):
+    obj.insert_into_questions(titles[i], descriptions[i], users[i][0])
+    obj.upvote_question(users[i][0], i+1)
 
-# obj.insert_into_answers("try restarting bro", 1, "a")
-# obj.insert_into_answers("try restarting bro", 1, "a")
-# obj.insert_into_answers("try restarting bro", 1, "a")
-# obj.insert_into_answers("throw the computer", 2, "b")
-# obj.insert_into_answers("change the OS", 2, "a")
-# obj.insert_into_answers("reinstall audio drivers", 2, "c")
+    for answer in answers[i]:
+        obj.insert_into_answers(answer, i+1, users[i][0])
+        total_answers += 1
+        obj.upvote_answer(users[i][0], total_answers)
 
-# obj.insert_into_tags("c++", 1)
-# obj.insert_into_tags("py", 2)
-# obj.insert_into_tags("java", 3)
+    for tag in tags[i]:
+        obj.insert_into_tags(tag, i+1)
 
-# obj.upvote_question("a", 1)
-# obj.upvote_question("b", 2)
-# obj.upvote_question("b", 3)
-
-# obj.upvote_answer("a", 4)
-# obj.upvote_answer("a", 5)
-# obj.upvote_answer("a", 6)
-# obj.upvote_answer("b", 4)
-# obj.upvote_answer("b", 5)
-# obj.upvote_answer("b", 6)
-# obj.upvote_answer("c", 4)
-# obj.upvote_answer("c", 5)
-# obj.upvote_answer("c", 6)
-# obj.upvote_answer("d", 4)
-# obj.upvote_answer("d", 5)
-# obj.upvote_answer("d", 6)
-# obj.upvote_answer("e", 5)
-# obj.upvote_answer("e", 6)
-# obj.upvote_answer("f", 6)
-
-# obj.update_question(1, "okay bro")
-# obj.update_answer(1, "okay bro")
-
+# obj.update_question(1, "dummpy question description")
+# obj.update_answer(1, "dummy answer description")
 # obj.delete_question(1)
 # obj.delete_answer(1)
 
-# print(obj.search_question("dummy"))
 
-# print(obj.search_answers(2))
+print(obj.search_question("dummy"))
+print(obj.search_answers(2))
+print(obj.search_by_tag("py"))
+print(obj.search_question_by_id(2))
+print(obj.get_top_questions())
 
-# print(obj.search_by_tag("py"))
+print(obj.check_user("a@iitgn.ac.in", "abcd"))
+obj.insert_into_tokens("james554", "1e758b81-fc45-467f-b375-2b6a218048c5")
+print(obj.check_token("2e758b81-fc45-467f-b375-2b6a218048c5"))
 
-# print(obj.search_question_by_id(2))
-
-# print(obj.get_top_questions())
-
-# print(obj.check_user("a@iitgn.ac.in", "abcd"))
-# print(obj.check_user("a@iitgn.ac.in", "abce"))
-
-# obj.insert_into_tokens("e", "1e758b81-fc45-467f-b375-2b6a218048c5")
-# obj.insert_into_tokens("f", "2e758b81-fc45-467f-b375-2b6a218048c5")
-# obj.insert_into_tokens("g", "3e758b81-fc45-467f-b375-2b6a218048c5")
-
-# print(obj.check_token("2e758b81-fc45-467f-b375-2b6a218048c5"))
-
-print(obj.calc_reputation("anupam123"))
+print(obj.calc_reputation("thomas999"))

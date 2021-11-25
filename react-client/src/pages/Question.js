@@ -119,7 +119,18 @@ function Question(props) {
               <h2>{qData[1]}</h2>
             </Card.Title>
             <Card.Text>{qData[2]}</Card.Text>
-            <Card.Text>Author: {qData[3]}</Card.Text>
+            <Card.Text>
+              Author:
+              <Button
+                variant="info"
+                onClick={() => {
+                  history.push("/user/" + qData[3]);
+                  history.go(0);
+                }}
+              >
+                {qData[3]}
+              </Button>
+            </Card.Text>
 
             <Row className="justify-content-center">
               {tags.map((value, index) => {
@@ -166,7 +177,18 @@ function Question(props) {
               <Row>
                 <Card.Body className="col-11">
                   <Card.Text>{value[1]}</Card.Text>
-                  <Card.Text>Author: {value[3]}</Card.Text>
+                  <Card.Text>
+                    Author:
+                    <Button
+                      variant="info"
+                      onClick={() => {
+                        history.push("/user/" + value[3]);
+                        history.go(0);
+                      }}
+                    >
+                      {value[3]}
+                    </Button>
+                  </Card.Text>
                   <Row className="justify-content-center">
                     <Button
                       className="mx-2"

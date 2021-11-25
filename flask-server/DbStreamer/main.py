@@ -1,4 +1,10 @@
 import mysql.connector as mysql
+import hashlib
+import base64
+
+
+def hash_base64(password):
+    return base64.b64encode(hashlib.sha256(password.encode('utf-8')).digest())
 
 
 class DbStreamer:
@@ -26,7 +32,7 @@ class DbStreamer:
 
     def insert_into_users(self, id, name, email, password):
         sql = "insert into Users (id, name, email, password) values (%s, %s, %s, %s);"
-        val = (id, name, email, password)
+        val = (id, name, email, hash_base64(password))
         _cursor = self.conn.cursor()
         _cursor.execute(sql, (val))
         results = _cursor.fetchall()
