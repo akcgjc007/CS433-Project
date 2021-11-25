@@ -7,7 +7,6 @@ import history from "../history";
 const url = "http://localhost:5000/";
 
 function Question(props) {
-  const [getMessage, setGetMessage] = useState({});
   const [qData, setQData] = useState([]);
   const [aData, setAData] = useState([]);
   const [desc, setDesc] = useState();

@@ -2,6 +2,12 @@ from flask_restful import Api, Resource, reqparse
 from flask import request
 from DbStreamer.main import DbStreamer
 from uuid import uuid4
+import hashlib
+import base64
+
+
+def hash_base64(password):
+    return base64.b64encode(hashlib.sha256(password.encode('utf-8')).digest())
 
 
 class AllQuestionsHandler(Resource, DbStreamer):
@@ -34,7 +40,7 @@ class Signup(Resource, DbStreamer):
         email = data.get('email', '')
         password = data.get('password', '')
 
-        self.insert_into_users(userid, name, email, password)
+        self.insert_into_users(userid, name, email, hash_base64(password))
 
         res = {"status": "Success",
                "message": "Account created successfully."}

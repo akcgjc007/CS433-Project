@@ -1,13 +1,17 @@
 import axios from "axios";
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-
 import { Button } from "react-bootstrap";
 import history from "../history";
+import crypto from "crypto";
 
 const url = "http://localhost:5000/";
 
-function Login({ setToken, setUserInfo }) {
+function hash_base64(password) {
+  return crypto.createHash("sha256").update(password).digest("base64");
+}
+
+function Login({ setToken }) {
   const [email, setEmail] = useState("a@iitgn.ac.in");
   const [password, setPassword] = useState("abcd");
 
@@ -17,7 +21,7 @@ function Login({ setToken, setUserInfo }) {
     await axios
       .post(url + "flask/login", {
         email: email,
-        password: password,
+        password: hash_base64(password),
       })
       .then(async (response) => {
         if (response.data.status === "Success") {
