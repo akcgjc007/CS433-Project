@@ -14,7 +14,7 @@ import {
 import history from "../history";
 import url from "./../url";
 
-function Navigation() {
+function Navigation(props) {
   const [term, setTerm] = useState();
 
   return (
@@ -27,6 +27,15 @@ function Navigation() {
         <Nav className="mr-auto">
           <Nav.Link style={{ color: "white" }} href="/home">
             Home
+          </Nav.Link>
+          <Nav.Link
+            style={{ color: "white" }}
+            onClick={() => {
+              history.push("/user/" + props.userid);
+              history.go(0);
+            }}
+          >
+            Profile
           </Nav.Link>
           <Nav.Link
             onClick={() => {
