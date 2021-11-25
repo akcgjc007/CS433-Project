@@ -27,5 +27,4 @@
 adding some tests in test-client,
 analyzing packets in wireshark,
 explaining about HTTP/1.1 GET and PUT requests
-delete tags when delete question
 solve enter button problem=when searching tags

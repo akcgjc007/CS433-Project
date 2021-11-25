@@ -124,7 +124,15 @@ function Question(props) {
             <Row className="justify-content-center">
               {tags.map((value, index) => {
                 return (
-                  <Button variant="success" className="mx-1">
+                  <Button
+                    key={index}
+                    variant="success"
+                    className="mx-1"
+                    onClick={() => {
+                      history.push("/tag_search/" + value);
+                      history.go(0);
+                    }}
+                  >
                     {value}
                   </Button>
                 );

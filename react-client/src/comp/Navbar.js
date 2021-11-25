@@ -51,7 +51,14 @@ function Navigation(props) {
           </Nav.Link>
         </Nav>
       </Navbar.Collapse>
-      <Form inline>
+      <Form
+        inline
+        onSubmit={(e) => {
+          e.preventDefault();
+          history.push("/tag_search/" + term);
+          history.go(0);
+        }}
+      >
         <FormControl
           type="text"
           placeholder="Search..."
@@ -64,7 +71,6 @@ function Navigation(props) {
         <Button
           variant="outline-light"
           onClick={() => {
-            console.log(term);
             history.push("/tag_search/" + term);
             history.go(0);
           }}
