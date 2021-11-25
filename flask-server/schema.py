@@ -33,7 +33,7 @@ obj.run_my_query("""
 -- Answers
 create table Answers(
     id int(10) unsigned auto_increment primary key,
-    description varchar(2000) not null,
+    description varchar(15000) not null,
     question_id int(10) unsigned not null,
     user_id varchar(50),
     upvotes int(10) unsigned default 0,

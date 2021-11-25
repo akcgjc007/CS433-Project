@@ -98,7 +98,7 @@ class AddAnswer(Resource, DbStreamer):
         token = data.get('token', '')
         desc = data.get('desc', '')
         qid = data.get('qid', '')
-        print(token, desc, qid)
+        # print(token, desc, qid)
         query_res = self.check_token(token)
 
         if len(query_res) == 0:
@@ -108,10 +108,12 @@ class AddAnswer(Resource, DbStreamer):
             return res
         else:
             self.insert_into_answers(desc, qid, query_res[0][0])
-
+            r = self.search_answer_by_desc(qid, desc)
             res = {"status": "Success",
-                   "message": "Answer added successfully."
+                   "message": "Answer added successfully.",
+                   "aid": r[0][0]
                    }
+
             return res
 
 
