@@ -9,6 +9,7 @@ import Question from "./pages/Question";
 import { Row } from "react-bootstrap";
 import useToken from "./useToken";
 import AddQuestion from "./pages/AddQuestion";
+import TagSearch from "./pages/TagSearch";
 
 function App() {
   const { token, setToken } = useToken();
@@ -41,6 +42,7 @@ function App() {
           <Route path="/home" component={Home} />
           <Route path="/question/:id" component={Question} />
           <Route path="/add_question" component={AddQuestion} />
+          <Route path="/tag_search/:name" component={TagSearch} />
         </Switch>
       </BrowserRouter>
     </div>

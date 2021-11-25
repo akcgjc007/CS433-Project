@@ -9,6 +9,7 @@ export default function AddQuestion() {
   const { token, name, userid } = useToken();
   const [title, setTitle] = useState();
   const [desc, setDesc] = useState();
+  const [tags, setTags] = useState();
 
   const addQuestionHandler = async (e) => {
     e.preventDefault();
@@ -18,8 +19,10 @@ export default function AddQuestion() {
         token,
         title,
         desc,
+        tags: tags.split(","),
       })
       .then(async (response) => {
+        console.log("Response: ", response);
         history.push("/question/" + response.data.qid);
         history.go(0);
       })
@@ -39,8 +42,6 @@ export default function AddQuestion() {
             placeholder="Start writing your question title..."
             onChange={({ target: { value } }) => setTitle(value)}
           />
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
           <Form.Label>Explain your question</Form.Label>
           <Form.Control
             as="textarea"
@@ -48,6 +49,14 @@ export default function AddQuestion() {
             placeholder="Start writing your question description..."
             onChange={({ target: { value } }) => setDesc(value)}
           />
+          <Form.Label>Write Tags(comma separated)</Form.Label>
+          <Form.Control
+            as="textarea"
+            rows={5}
+            placeholder="tag1,tag2,..."
+            onChange={({ target: { value } }) => setTags(value)}
+          />
+
           <Button type="submit">Add question</Button>
         </Form.Group>
       </Form>

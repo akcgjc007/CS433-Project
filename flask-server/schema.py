@@ -72,9 +72,10 @@ create table AnswerVotes(
 obj.run_my_query("""
 -- Tags
 create table Tags(
-    name varchar(50) not null primary key,
+    name varchar(50) not null,
     question_id int(10) unsigned not null,
-    foreign key (question_id) references Questions(id)
+    foreign key (question_id) references Questions(id),
+    primary key(name, question_id)
 );
 """)
 

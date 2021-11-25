@@ -10,6 +10,7 @@ function Question(props) {
   const [qData, setQData] = useState([]);
   const [aData, setAData] = useState([]);
   const [desc, setDesc] = useState();
+  const [tags, setTags] = useState([]);
   const { token, name, userid } = useToken();
 
   useEffect(() => {
@@ -19,7 +20,7 @@ function Question(props) {
       .then((response) => {
         setQData(response.data.question_data[0]);
         setAData(response.data.answer_data);
-        console.log(response.data.answer_data);
+        setTags(response.data.tag_data);
       })
       .catch((error) => {
         console.log(error);
@@ -119,6 +120,18 @@ function Question(props) {
             </Card.Title>
             <Card.Text>{qData[2]}</Card.Text>
             <Card.Text>Author: {qData[3]}</Card.Text>
+
+            <Row className="justify-content-center">
+              {tags.map((value, index) => {
+                return (
+                  <Button variant="success" className="mx-1">
+                    {value}
+                  </Button>
+                );
+              })}
+            </Row>
+            <br />
+
             <Row className="justify-content-center">
               <Button className="mx-2" onClick={upvoteQuestionHandler}>
                 Upvote

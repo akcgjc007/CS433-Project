@@ -157,7 +157,7 @@ class DbStreamer:
         return results
 
     def search_by_tag(self, tag):
-        sql = "select * from Tags where name = %s;"
+        sql = "select question_id from Tags where name = %s;"
         val = (tag)
         _cursor = self.conn.cursor()
         _cursor.execute(sql, (val, ))
@@ -209,6 +209,14 @@ class DbStreamer:
         val = (qid, desc)
         _cursor = self.conn.cursor()
         _cursor.execute(sql, (val))
+        results = _cursor.fetchall()
+        return results
+
+    def tags_of_a_question(self, qid):
+        sql = "select name from Tags where question_id = %s;"
+        val = (qid)
+        _cursor = self.conn.cursor()
+        _cursor.execute(sql, (val, ))
         results = _cursor.fetchall()
         return results
 

@@ -24,11 +24,16 @@ class QuestionHandler(Resource, DbStreamer):
     def get(self, id):
         question_data = self.search_question_by_id(id)
         answers_data = self.search_answers(id)
+        tag_data = self.tags_of_a_question(id)
+        tag_arr = []
+        for i in tag_data:
+            tag_arr.append(i[0])
 
         return {
             'resultStatus': 'SUCCESS',
             'question_data': question_data,
-            'answer_data': answers_data
+            'answer_data': answers_data,
+            'tag_data': tag_arr
         }
 
 
@@ -80,6 +85,9 @@ class AddQuestion(Resource, DbStreamer):
         token = data.get('token', '')
         title = data.get('title', '')
         desc = data.get('desc', '')
+        tags = data.get('tags', '')
+        print(tags)
+
         query_res = self.check_token(token)
 
         if len(query_res) == 0:
@@ -90,6 +98,8 @@ class AddQuestion(Resource, DbStreamer):
         else:
             self.insert_into_questions(title, desc, query_res[0][0])
             r = self.find_qid(title)
+            for tag in tags:
+                self.insert_into_tags(tag, r[0][0])
 
             res = {"status": "Success",
                    "message": "Question added successfully.",
@@ -218,3 +228,17 @@ class UpvoteAnswer(Resource, DbStreamer):
             res = {"status": "Success",
                    "message": "Answer upvoted successfully."}
             return res
+
+
+class TagsHandler (Resource, DbStreamer):
+    def get(self, name):
+        res = self.search_by_tag(name)
+        title_array = []
+        for question_id, in res:
+            title_array.append(
+                (question_id, self.search_question_by_id(question_id)[0][1]))
+
+        return {
+            'resultStatus': 'SUCCESS',
+            'title_array': title_array,
+        }

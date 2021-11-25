@@ -1,8 +1,33 @@
-import React from "react";
-import { Navbar, Nav, Form, FormControl, Button } from "react-bootstrap";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import {
+  Navbar,
+  Nav,
+  Form,
+  FormControl,
+  Button,
+  Col,
+  Popover,
+  Row,
+  OverlayTrigger,
+} from "react-bootstrap";
 import history from "../history";
+const url = "http://localhost:5000/";
 
 function Navigation() {
+  useEffect(() => {
+    axios
+      .get(url + "flask/tags/cpp")
+
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  });
+  const [term, setTerm] = useState();
+
   return (
     <Navbar className="bg-dark px-2" sticky="top">
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -31,14 +56,26 @@ function Navigation() {
           </Nav.Link>
         </Nav>
       </Navbar.Collapse>
-
       <Form inline>
         <FormControl
           type="text"
           placeholder="Search..."
           className="mr-4 my-auto"
+          onChange={(e) => {
+            setTerm(e.target.value);
+          }}
         />
-        <Button variant="outline-light">Go</Button>
+
+        <Button
+          variant="outline-light"
+          onClick={() => {
+            console.log(term);
+            history.push("/tag_search/" + term);
+            history.go(0);
+          }}
+        >
+          Go
+        </Button>
       </Form>
     </Navbar>
   );
