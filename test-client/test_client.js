@@ -1,5 +1,5 @@
 const { default: axios } = require("axios");
-const url = "http://localhost:5000/";
+import url from "./../url";
 const { title, desc } = require("./raw_data");
 
 async function main() {

@@ -242,3 +242,14 @@ class TagsHandler (Resource, DbStreamer):
             'resultStatus': 'SUCCESS',
             'title_array': title_array,
         }
+
+
+class UserProfileHandler(Resource, DbStreamer):
+    def get(self, userid):
+        res = self.calc_reputation(userid)
+
+        return {
+            'resultStatus': 'SUCCESS',
+            'reputation': res,
+            'qData': self.get_questions_by_user(userid)
+        }

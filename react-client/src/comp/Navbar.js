@@ -12,20 +12,9 @@ import {
   OverlayTrigger,
 } from "react-bootstrap";
 import history from "../history";
-const url = "http://localhost:5000/";
+import url from "./../url";
 
 function Navigation() {
-  useEffect(() => {
-    axios
-      .get(url + "flask/tags/cpp")
-
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  });
   const [term, setTerm] = useState();
 
   return (
@@ -38,9 +27,6 @@ function Navigation() {
         <Nav className="mr-auto">
           <Nav.Link style={{ color: "white" }} href="/home">
             Home
-          </Nav.Link>
-          <Nav.Link style={{ color: "white" }} href="/top_posts">
-            Top Posts
           </Nav.Link>
           <Nav.Link
             onClick={() => {

@@ -172,6 +172,14 @@ class DbStreamer:
         results = _cursor.fetchall()
         return results
 
+    def get_questions_by_user(self, user_id):
+        sql = "select * from Questions where user_id = %s;"
+        val = (user_id)
+        _cursor = self.conn.cursor()
+        _cursor.execute(sql, (val, ))
+        results = _cursor.fetchall()
+        return results
+
     def check_user(self, email, password):
         sql = "select * from Users where email = %s and password = %s;"
         val = (email, password)
@@ -219,6 +227,18 @@ class DbStreamer:
         _cursor.execute(sql, (val, ))
         results = _cursor.fetchall()
         return results
+
+    def calc_reputation(self, userid):
+        sql1 = "select * from QuestionVotes where user_id = %s;"
+        sql2 = "select * from AnswerVotes where user_id = %s;"
+        val = (userid)
+        _cursor = self.conn.cursor()
+        _cursor.execute(sql1, (val, ))
+        results1 = _cursor.fetchall()
+        _cursor.execute(sql2, (val, ))
+        results2 = _cursor.fetchall()
+
+        return 10*len(results1) + 20*len(results2)
 
     def get_tables(self):
         sql = "SHOW TABLES;"

@@ -3,16 +3,12 @@ import { Card, Row } from "react-bootstrap";
 import history from "../history";
 import axios from "axios";
 
-const url = "http://localhost:5000/";
+import url from "./../url";
 export default function TagSearch(props) {
-  const [titleArray, setTitleArray] = useState([
-    ["assa", 3],
-    ["asasdd", 4],
-  ]);
+  const [titleArray, setTitleArray] = useState([]);
   useEffect(() => {
     axios
       .get(url + "flask/tags/" + props.match.params.name)
-
       .then((response) => {
         console.log(response);
         setTitleArray(response.data.title_array);
@@ -20,7 +16,7 @@ export default function TagSearch(props) {
       .catch((error) => {
         console.log(error);
       });
-  });
+  }, []);
   return (
     <div>
       {titleArray.map((value, index) => {

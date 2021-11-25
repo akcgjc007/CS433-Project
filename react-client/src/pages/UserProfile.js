@@ -1,26 +1,37 @@
-import React, { useEffect, useState } from "react";
-import { Card, Button, Row } from "react-bootstrap";
-import history from "./../history";
-
 import axios from "axios";
-import url from "./../url";
+import React, { useEffect, useState } from "react";
+import { Card, Row } from "react-bootstrap";
+import history from "../history";
+import url from "../url";
 
-function Home() {
+export default function UserProfile(props) {
+  const [rep, setRep] = useState(0);
   const [postData, setPostData] = useState([]);
-
   useEffect(() => {
     axios
-      .get(url + "flask/all")
+      .get(url + "flask/user/" + props.match.params.userid)
       .then((response) => {
-        console.log(response);
-        setPostData(response.data.data);
+        setRep(response.data.reputation);
+        setPostData(response.data.qData);
       })
       .catch((error) => {
         console.log(error);
       });
   }, []);
+
   return (
-    <div className="App">
+    <div>
+      <Card className="text-center">
+        <Card.Body>
+          <Card.Title>UserID: {props.match.params.userid}</Card.Title>
+          <Card.Title>
+            <h3>User reputation: {rep}</h3>
+          </Card.Title>
+        </Card.Body>
+      </Card>
+
+      <br />
+
       {postData.map((value, index) => {
         console.log(value);
         return (
@@ -44,5 +55,3 @@ function Home() {
     </div>
   );
 }
-
-export default Home;

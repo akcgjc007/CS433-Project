@@ -4,7 +4,7 @@ import { Card, Button, Row, Form } from "react-bootstrap";
 import useToken from "../useToken";
 import history from "../history";
 
-const url = "http://localhost:5000/";
+import url from "./../url";
 
 function Question(props) {
   const [qData, setQData] = useState([]);

@@ -3,7 +3,7 @@ import { Form, Button } from "react-bootstrap";
 import useToken from "../useToken";
 import axios from "axios";
 import history from "../history";
-const url = "http://localhost:5000/";
+import url from "./../url";
 
 export default function AddQuestion() {
   const { token, name, userid } = useToken();

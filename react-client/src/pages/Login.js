@@ -5,7 +5,7 @@ import { Button } from "react-bootstrap";
 import history from "../history";
 import crypto from "crypto";
 
-const url = "http://localhost:5000/";
+import url from "./../url";
 
 function hash_base64(password) {
   return crypto.createHash("sha256").update(password).digest("base64");

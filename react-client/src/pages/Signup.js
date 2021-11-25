@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 
-const url = "http://localhost:5000/";
+import url from "./../url";
 
 function Signup() {
   const [userid, setUserid] = useState();

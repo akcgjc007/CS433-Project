@@ -10,9 +10,10 @@ import { Row } from "react-bootstrap";
 import useToken from "./useToken";
 import AddQuestion from "./pages/AddQuestion";
 import TagSearch from "./pages/TagSearch";
+import UserProfile from "./pages/UserProfile";
 
 function App() {
-  const { token, setToken } = useToken();
+  const { token, setToken, userid, name } = useToken();
   if (!token) {
     return (
       <Row>
@@ -43,6 +44,7 @@ function App() {
           <Route path="/question/:id" component={Question} />
           <Route path="/add_question" component={AddQuestion} />
           <Route path="/tag_search/:name" component={TagSearch} />
+          <Route path="/user/:userid" component={UserProfile} />
         </Switch>
       </BrowserRouter>
     </div>
