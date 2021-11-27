@@ -224,7 +224,7 @@ class UpvoteAnswer(Resource, DbStreamer):
             return res
 
 
-class TagsHandler (Resource, DbStreamer):
+class SearchTagHandler (Resource, DbStreamer):
     def get(self, name):
         res = self.search_by_tag(name)
         title_array = []
