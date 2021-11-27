@@ -1,18 +1,6 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
-import {
-  Navbar,
-  Nav,
-  Form,
-  FormControl,
-  Button,
-  Col,
-  Popover,
-  Row,
-  OverlayTrigger,
-} from "react-bootstrap";
+import React, { useState } from "react";
+import { Navbar, Nav, Form, FormControl, Button } from "react-bootstrap";
 import history from "../history";
-import url from "./../url";
 
 function Navigation(props) {
   const [term, setTerm] = useState();

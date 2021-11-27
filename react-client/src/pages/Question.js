@@ -11,7 +11,7 @@ function Question(props) {
   const [aData, setAData] = useState([]);
   const [desc, setDesc] = useState();
   const [tags, setTags] = useState([]);
-  const { token, name, userid } = useToken();
+  const { token } = useToken();
 
   useEffect(() => {
     console.log(props.match.params.id);

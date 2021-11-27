@@ -60,7 +60,7 @@ async function main() {
   }
 
   for (let i = 0; i < 5; i++) {
-    console.time("add_answer" + i);
+    console.time("delete_answer" + i);
     await axios
       .post(url + "flask/delete_answer", {
         token,
@@ -70,7 +70,7 @@ async function main() {
       .catch((error) => {
         console.log(error);
       });
-    console.timeEnd("add_answer" + i);
+    console.timeEnd("delete_answer" + i);
   }
 
   for (let i = 0; i < qArr.length; i++) {

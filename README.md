@@ -21,10 +21,3 @@
 ## Testing with `test-client` in `mininet`
 
 - xterm -fa 'Monospace' -fs 14
-
-## todo:
-
-adding some tests in test-client,
-analyzing packets in wireshark,
-explaining about HTTP/1.1 GET and PUT requests
-solve enter button problem=when searching tags

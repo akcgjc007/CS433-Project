@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Navigation from "./comp/Navbar";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import "./App.css";
@@ -13,7 +13,7 @@ import TagSearch from "./pages/TagSearch";
 import UserProfile from "./pages/UserProfile";
 
 function App() {
-  const { token, setToken, userid, name } = useToken();
+  const { token, setToken, userid } = useToken();
   if (!token) {
     return (
       <Row>

@@ -6,7 +6,7 @@ import history from "../history";
 import url from "./../url";
 
 export default function AddQuestion() {
-  const { token, name, userid } = useToken();
+  const { token } = useToken();
   const [title, setTitle] = useState();
   const [desc, setDesc] = useState();
   const [tags, setTags] = useState();
