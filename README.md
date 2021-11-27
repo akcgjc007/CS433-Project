@@ -21,3 +21,8 @@
 ## Testing with `test-client` in `mininet`
 
 - xterm -fa 'Monospace' -fs 14
+
+## References
+
+- [Reine0017/reactFlaskTutorial](https://github.com/Reine0017/reactFlaskTutorial)
+- [akcgjc007/IITGN-Grad-Planner](https://github.com/akcgjc007/IITGN-Grad-Planner)
